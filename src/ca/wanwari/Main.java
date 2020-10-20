@@ -24,5 +24,8 @@ public class Main {
 
         if (!isUniformTranslucencySupported)
             System.exit(-1);
+
+        CaptureInterface captureInterface = new CaptureInterface();
+        captureInterface.showDisplay();
     }
 }
