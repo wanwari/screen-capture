@@ -39,6 +39,15 @@ public class CaptureInterface extends MouseAdapter {
     public void mouseReleased(MouseEvent mouseEvent) {
         super.mouseReleased(mouseEvent);
         Rectangle captureRectangle = drawPanel.getRectangle();
+
+        drawPanel.setVisible(false);
+        drawPanel.setEnabled(false);
+        displayWindow.remove(drawPanel);
+
+        displayWindow.setVisible(false);
+        displayWindow.setEnabled(false);
+        displayWindow.dispose();
+
         System.out.println(captureRectangle);
 
     }
@@ -49,6 +58,5 @@ public class CaptureInterface extends MouseAdapter {
         drawPanel.setDraggedX(mouseEvent.getX());
         drawPanel.setDraggedY(mouseEvent.getY());
     }
-
 
 }
