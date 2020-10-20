@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class CaptureInterface extends MouseAdapter {
 
@@ -49,6 +50,16 @@ public class CaptureInterface extends MouseAdapter {
         displayWindow.dispose();
 
         System.out.println(captureRectangle);
+
+        try {
+            CaptureManager captureManager = new CaptureManager();
+            captureManager.captureScreenShot(captureRectangle);
+            captureManager.saveCaptureToFile("/home/wanwari/img.png");
+        } catch (AWTException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
