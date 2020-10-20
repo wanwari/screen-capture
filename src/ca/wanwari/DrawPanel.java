@@ -7,50 +7,84 @@ public class DrawPanel extends JPanel {
 
     int clickedX;
     int clickedY;
-    int width;
-    int height;
+    int currentX;
+    int currentY;
+    int rectangleX;
+    int rectangleY;
+    int rectangleWidth;
+    int rectangleHeight;
 
     DrawPanel() {
-        clickedX = 0;
-        clickedY = 0;
-        width = 0;
-        height = 0;
+        clickedX = -1;
+        clickedY = -1;
+        currentX = -1;
+        currentY = -1;
+        rectangleX = -1;
+        rectangleY = -1;
+        rectangleWidth = -1;
+        rectangleHeight = -1;
     }
+
 
     @Override
     public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
         super.paintComponent(g);
-        g.drawRect(clickedX, clickedY, width, height);
+
+        g2.setStroke(new BasicStroke(1.5f));
+        g2.setColor(new Color(255, 0, 0));
+        g2.drawRect(rectangleX, rectangleY, rectangleWidth, rectangleHeight);
+    }
+
+    void updateRectanglePoints() {
+        if (currentX == -1 && currentY == -1) {
+            rectangleX = clickedX;
+            rectangleY = clickedY;
+            rectangleWidth = 1;
+            rectangleHeight = 1;
+            repaint();
+        } else if (currentX >= 0 && currentY >= 0) {
+            if (currentX > clickedX) {
+                rectangleX = clickedX;
+                rectangleWidth = currentX - clickedX;
+            } else {
+                rectangleX = currentX;
+                rectangleWidth = clickedX - currentX;
+            }
+            if (currentY > clickedY) {
+                rectangleY = clickedY;
+                rectangleHeight = currentY - clickedY;
+            } else {
+                rectangleY = currentY;
+                rectangleHeight = clickedY - currentY;
+            }
+            repaint();
+        }
 
     }
 
-    void setClickedX(int x) {
-        this.clickedX = x;
-        repaint();
+    void setClickedX(int clickedX) {
+        this.clickedX = clickedX;
+        updateRectanglePoints();
     }
 
-    int getClickedX() {
-        return clickedX;
+    void setClickedY(int clickedY) {
+        this.clickedY = clickedY;
+        updateRectanglePoints();
     }
 
-    int getClickedY() {
-        return clickedY;
+    void setDraggedX(int currentX) {
+        this.currentX = currentX;
+        updateRectanglePoints();
     }
 
-    void setClickedY(int y) {
-        this.clickedY = y;
-        repaint();
+    void setDraggedY(int currentY) {
+        this.currentY = currentY;
+        updateRectanglePoints();
     }
 
-    void setWidth(int width) {
-        if (width > clickedY)
-            this.width = width - clickedX;
-        repaint();
+    Rectangle getRectangle() {
+        return new Rectangle(rectangleX, rectangleY, rectangleWidth, rectangleHeight);
     }
 
-    void setHeight(int height) {
-        if (height > clickedY)
-            this.height = height - clickedY;
-        repaint();
-    }
 }
