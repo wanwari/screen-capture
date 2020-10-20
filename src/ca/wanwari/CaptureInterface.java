@@ -31,7 +31,6 @@ public class CaptureInterface extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         super.mousePressed(mouseEvent);
-        System.out.println("Pressed at: " + mouseEvent.getPoint());
         drawPanel.setClickedX((mouseEvent.getX()));
         drawPanel.setClickedY((mouseEvent.getY()));
     }
@@ -39,16 +38,16 @@ public class CaptureInterface extends MouseAdapter {
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
         super.mouseReleased(mouseEvent);
-        System.out.println("Released at: " + mouseEvent.getPoint());
+        Rectangle captureRectangle = drawPanel.getRectangle();
+        System.out.println(captureRectangle);
+
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         super.mouseDragged(mouseEvent);
-        System.out.println("Dragged to: " + mouseEvent.getPoint());
-        drawPanel.setWidth(mouseEvent.getX());
-        drawPanel.setHeight(mouseEvent.getY());
-
+        drawPanel.setDraggedX(mouseEvent.getX());
+        drawPanel.setDraggedY(mouseEvent.getY());
     }
 
 
