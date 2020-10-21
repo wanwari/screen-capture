@@ -10,13 +10,17 @@ public class CaptureInterface extends MouseAdapter {
 
     JFrame displayWindow;
     DrawPanel drawPanel;
+    int minX = (int)GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getMinX();
+    int minY = (int)GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getMinY();
     final int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     final int screen_height = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
     CaptureInterface() {
         displayWindow = new JFrame();
+        displayWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
         displayWindow.setUndecorated(true);
-        displayWindow.setLocation(new Point(0, 0));
+        displayWindow.setLocation(new Point(minX, minY));
+        System.out.println(minX + " " + minY);
         displayWindow.setSize(new Dimension(screen_width, screen_height));
         displayWindow.setOpacity(0.3f);
         displayWindow.addMouseListener(this);
@@ -39,7 +43,7 @@ public class CaptureInterface extends MouseAdapter {
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
         super.mouseReleased(mouseEvent);
-        Rectangle captureRectangle = drawPanel.getRectangle();
+
 
         drawPanel.setVisible(false);
         drawPanel.setEnabled(false);
@@ -48,8 +52,9 @@ public class CaptureInterface extends MouseAdapter {
         displayWindow.setVisible(false);
         displayWindow.setEnabled(false);
         displayWindow.dispose();
-
-        System.out.println(captureRectangle);
+        Rectangle captureRectangle = drawPanel.getRectangle();
+        captureRectangle.setLocation(drawPanel.getRectangle().x + minX, drawPanel.getRectangle().y + minY);
+        System.out.println("CaptureInterface: " + captureRectangle);
 
         try {
             CaptureManager captureManager = new CaptureManager();
