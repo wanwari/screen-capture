@@ -14,6 +14,19 @@ public class SaveInterface {
     private final CaptureManager captureManager;
 
     SaveInterface(Rectangle captureRectangle) throws AWTException {
+
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                System.out.println(info.getName());
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         frame = new JFrame();
         JPanel panel = new JPanel();
 
