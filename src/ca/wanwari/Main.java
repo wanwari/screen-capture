@@ -5,6 +5,8 @@ import static java.awt.GraphicsDevice.WindowTranslucency.*;
 
 public class Main {
 
+    public static String operatingSystem = System.getProperty("os.name");
+
     public static void main(String[] args) {
 
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
