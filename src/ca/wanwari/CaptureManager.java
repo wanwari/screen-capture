@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class CaptureManager {
 
-    Robot robot;
-    BufferedImage bufferedImage;
-    boolean capturedImage;
+    private final Robot robot;
+    private BufferedImage bufferedImage;
+    private boolean capturedImage;
 
     CaptureManager() throws AWTException {
         robot = new Robot();
