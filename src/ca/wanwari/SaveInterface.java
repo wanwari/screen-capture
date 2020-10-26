@@ -24,6 +24,7 @@ public class SaveInterface {
         frame.setLocation(getCenterLocation());
         frame.setResizable(false);
         frame.setTitle("Save");
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JButton saveToFileBtn = new JButton("Save to File");
         saveToFileBtn.setPreferredSize(new Dimension(150, 30));
