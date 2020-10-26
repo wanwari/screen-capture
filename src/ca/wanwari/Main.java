@@ -25,7 +25,6 @@ public class Main {
         if (!isUniformTranslucencySupported)
             System.exit(-1);
 
-        //SaveInterface saveInterface = new SaveInterface();
         if (SystemTray.isSupported()) {
             //TODO: create system tray
         } else {

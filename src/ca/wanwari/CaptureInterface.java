@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 public class CaptureInterface extends MouseAdapter {
 
@@ -44,7 +43,6 @@ public class CaptureInterface extends MouseAdapter {
     public void mouseReleased(MouseEvent mouseEvent) {
         super.mouseReleased(mouseEvent);
 
-
         drawPanel.setVisible(false);
         drawPanel.setEnabled(false);
         displayWindow.remove(drawPanel);
@@ -57,12 +55,10 @@ public class CaptureInterface extends MouseAdapter {
         System.out.println("CaptureInterface: " + captureRectangle);
 
         try {
-            CaptureManager captureManager = new CaptureManager();
-            captureManager.captureScreenShot(captureRectangle);
-            captureManager.saveCaptureToFile("/home/wanwari/img.png");
-        } catch (AWTException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            SaveInterface saveInterface = new SaveInterface(captureRectangle);
+            saveInterface.setCaptureRectangle(captureRectangle);
+            saveInterface.show();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
