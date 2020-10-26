@@ -4,58 +4,49 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class SaveInterface {
 
-    JFrame frame;
-    JPanel panel;
-    JButton saveToFileBtn;
-    JButton saveToClipboardBtn;
-    JButton uploadBtn;
-    int frameWidth;
-    int frameHeight;
-    Rectangle captureRectangle;
-    CaptureManager captureManager;
+    private final JFrame frame;
+    private final int frameWidth = 550;
+    private final int frameHeight = 80;
+    private final CaptureManager captureManager;
 
     SaveInterface(Rectangle captureRectangle) throws AWTException {
         frame = new JFrame();
-        panel = new JPanel();
+        JPanel panel = new JPanel();
+
         captureManager = new CaptureManager();
         captureManager.captureScreenShot(captureRectangle);
-        frameWidth = 550;
-        frameHeight = 80;
+
         frame.setSize(frameWidth, frameHeight);
         frame.setLocation(getCenterLocation());
         frame.setResizable(false);
         frame.setTitle("Save");
 
-        saveToFileBtn = new JButton("Save to File");
+        JButton saveToFileBtn = new JButton("Save to File");
         saveToFileBtn.setPreferredSize(new Dimension(150, 30));
-        saveToFileBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+        saveToFileBtn.addActionListener(actionEvent -> {
 
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "PNG & JPG Images", "png", "jpg", "jpeg");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "PNG & JPG Images", "png", "jpg", "jpeg");
 
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(filter);
-                fileChooser.showSaveDialog(fileChooser.getParent());
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(filter);
+            fileChooser.showSaveDialog(fileChooser.getParent());
 
-                try {
-                    captureManager.saveCaptureToFile(fileChooser.getSelectedFile());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                captureManager.saveCaptureToFile(fileChooser.getSelectedFile());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
-        saveToClipboardBtn = new JButton("Copy to Clipboard");
+
+        JButton saveToClipboardBtn = new JButton("Copy to Clipboard");
         saveToClipboardBtn.setPreferredSize(new Dimension(200, 30));
 
-        uploadBtn = new JButton("Upload to Imgur");
+        JButton uploadBtn = new JButton("Upload to Imgur");
         uploadBtn.setPreferredSize(new Dimension(150, 30));
 
         panel.add(saveToFileBtn);
@@ -76,9 +67,5 @@ public class SaveInterface {
         int x = (screen_width/2) - frameWidth/2;
         int y = (screen_height/2) - frameHeight/2;
         return new Point(x, y);
-    }
-
-    void setCaptureRectangle(Rectangle captureRectangle) {
-        this.captureRectangle = captureRectangle;
     }
 }

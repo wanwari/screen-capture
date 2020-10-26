@@ -73,7 +73,6 @@ public class CaptureInterface extends MouseAdapter {
     private void setupSaveInterface(Rectangle captureRectangle) {
         try {
             SaveInterface saveInterface = new SaveInterface(captureRectangle);
-            saveInterface.setCaptureRectangle(captureRectangle);
             saveInterface.show();
         } catch (Exception e) {
             e.printStackTrace();
