@@ -34,7 +34,24 @@ public class SaveInterface {
 
         saveToFileBtn = new JButton("Save to File");
         saveToFileBtn.setPreferredSize(new Dimension(150, 30));
+        saveToFileBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
 
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "PNG & JPG Images", "png", "jpg", "jpeg");
+
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(filter);
+                fileChooser.showSaveDialog(fileChooser.getParent());
+
+                try {
+                    captureManager.saveCaptureToFile(fileChooser.getSelectedFile());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         saveToClipboardBtn = new JButton("Copy to Clipboard");
         saveToClipboardBtn.setPreferredSize(new Dimension(200, 30));
 
