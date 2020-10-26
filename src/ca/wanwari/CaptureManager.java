@@ -27,4 +27,8 @@ public class CaptureManager {
             ImageIO.write(bufferedImage, "png", file);
         }
     }
+
+    BufferedImage getBufferedImage() {
+        return this.bufferedImage;
+    }
 }
