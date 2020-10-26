@@ -22,9 +22,9 @@ public class CaptureManager {
         capturedImage = true;
     }
 
-    void saveCaptureToFile(String fileLocation) throws IOException {
+    void saveCaptureToFile(File file) throws IOException {
         if (bufferedImage != null && capturedImage) {
-            ImageIO.write(bufferedImage, "png", new File(fileLocation));
+            ImageIO.write(bufferedImage, "png", file);
         }
     }
 }
