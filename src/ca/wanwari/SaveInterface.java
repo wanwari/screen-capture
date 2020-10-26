@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
 import java.io.IOException;
 
 public class SaveInterface {
@@ -17,7 +18,6 @@ public class SaveInterface {
 
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                System.out.println(info.getName());
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
@@ -59,6 +59,17 @@ public class SaveInterface {
 
         JButton saveToClipboardBtn = new JButton("Copy to Clipboard");
         saveToClipboardBtn.setPreferredSize(new Dimension(200, 30));
+        saveToClipboardBtn.addActionListener(actionEvent -> {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(new TransferableImage(captureManager.getBufferedImage()), null);
+            if (Main.operatingSystem.contains("Linux")) {
+                JOptionPane.showMessageDialog(frame,
+                        "If you are using X11, the clipboard will not persist after the program is terminated.\n" +
+                           "Insure you paste prior to terminating the application. This is default X11 behaviour.",
+                        "X11 Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        });
 
         JButton uploadBtn = new JButton("Upload to Imgur");
         uploadBtn.setPreferredSize(new Dimension(150, 30));
