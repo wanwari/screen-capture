@@ -14,7 +14,9 @@ public class UploadManager {
 
     private final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
     private final String uploadUrl = "https://freeimage.host/api/1/upload";
-    private final String apiKey = ""; //place private API key here
+    //this is the public freeimage.host api key
+    //feel free to replace with your own private key
+    private final String apiKey = "6d207e02198a847aa98d0a2a901485a5";
 
     UploadManager() {
 
