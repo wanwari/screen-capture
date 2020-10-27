@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 
 public class SaveInterface {
@@ -71,8 +72,27 @@ public class SaveInterface {
             }
         });
 
-        JButton uploadBtn = new JButton("Upload to Imgur");
+        JButton uploadBtn = new JButton("Upload");
         uploadBtn.setPreferredSize(new Dimension(150, 30));
+        uploadBtn.addActionListener(actionEvent -> {
+            UploadManager uploadManager = new UploadManager();
+            try {
+                String uploadUrlResponse = uploadManager.upload(captureManager.convertToBase64());
+                if (!uploadUrlResponse.equals("error")) {
+                    StringSelection selection = new StringSelection(uploadUrlResponse);
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    clipboard.setContents(selection, selection);
+                    JOptionPane.showMessageDialog(frame,
+                            "The image has been uploaded and the URL has been copied to your clipboard",
+                            "Uploaded",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
 
         panel.add(saveToFileBtn);
         panel.add(saveToClipboardBtn);
