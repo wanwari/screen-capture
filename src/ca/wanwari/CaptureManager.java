@@ -3,8 +3,10 @@ package ca.wanwari;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 
 public class CaptureManager {
 
@@ -30,5 +32,15 @@ public class CaptureManager {
 
     BufferedImage getBufferedImage() {
         return this.bufferedImage;
+    }
+
+    String convertToBase64() throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write( bufferedImage, "png", byteArrayOutputStream);
+        byteArrayOutputStream.flush();
+        byte[] imageInByte = byteArrayOutputStream.toByteArray();
+        byteArrayOutputStream.close();
+
+        return Base64.getEncoder().encodeToString(imageInByte);
     }
 }
