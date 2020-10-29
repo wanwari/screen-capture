@@ -13,13 +13,15 @@ public class SaveInterface {
     private final JFrame frame;
     private final int frameWidth = 550;
     private final int frameHeight = 80;
-    private final CaptureManager captureManager;
 
     SaveInterface(Rectangle captureRectangle) throws AWTException {
 
+        CaptureManager captureManager = new CaptureManager();
+        captureManager.captureScreenShot(captureRectangle);
+
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if (info.getName().equals("Nimbus")) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -31,9 +33,6 @@ public class SaveInterface {
         frame = new JFrame();
         JPanel panel = new JPanel();
 
-        captureManager = new CaptureManager();
-        captureManager.captureScreenShot(captureRectangle);
-
         frame.setSize(frameWidth, frameHeight);
         frame.setLocation(getCenterLocation());
         frame.setResizable(false);
@@ -43,7 +42,6 @@ public class SaveInterface {
         JButton saveToFileBtn = new JButton("Save to File");
         saveToFileBtn.setPreferredSize(new Dimension(150, 30));
         saveToFileBtn.addActionListener(actionEvent -> {
-
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
                     "PNG & JPG Images", "png", "jpg", "jpeg");
 
@@ -66,7 +64,7 @@ public class SaveInterface {
             if (Main.operatingSystem.contains("Linux")) {
                 JOptionPane.showMessageDialog(frame,
                         "If you are using X11, the clipboard will not persist after the program is terminated.\n" +
-                           "Insure you paste prior to terminating the application. This is default X11 behaviour.",
+                                "Insure you paste prior to terminating the application. This is default X11 behaviour.",
                         "X11 Warning",
                         JOptionPane.WARNING_MESSAGE);
             }
@@ -75,23 +73,25 @@ public class SaveInterface {
         JButton uploadBtn = new JButton("Upload");
         uploadBtn.setPreferredSize(new Dimension(150, 30));
         uploadBtn.addActionListener(actionEvent -> {
-            UploadManager uploadManager = new UploadManager();
+            String message = "There was a problem trying to upload the image. Please try again.";
+            String title = "Error";
             try {
+                UploadManager uploadManager = new UploadManager();
                 String uploadUrlResponse = uploadManager.upload(captureManager.convertToBase64());
                 if (!uploadUrlResponse.equals("error")) {
                     StringSelection selection = new StringSelection(uploadUrlResponse);
                     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clipboard.setContents(selection, selection);
-                    JOptionPane.showMessageDialog(frame,
-                            "The image has been uploaded and the URL has been copied to your clipboard",
-                            "Uploaded",
-                            JOptionPane.INFORMATION_MESSAGE);
+                    message = "The image has been uploaded and the URL has been copied to your clipboard.";
+                    title = "Uploaded";
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
+            JOptionPane.showMessageDialog(frame,
+                    message,
+                    title,
+                    JOptionPane.INFORMATION_MESSAGE);
         });
 
         panel.add(saveToFileBtn);
