@@ -1,75 +1,64 @@
 package ca.wanwari;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.net.*;
 
 public class UploadManager {
 
-    private final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
-    private final String uploadUrl = "https://freeimage.host/api/1/upload";
-    //this is the public freeimage.host api key
-    //feel free to replace with your own private key
-    private final String apiKey = "6d207e02198a847aa98d0a2a901485a5";
+    private String uploadResponse = "error";
 
     UploadManager() {
 
     }
 
-    String upload(String imgInBase64) throws IOException, InterruptedException {
+    String upload(String imgInBase64) {
 
-        String uploadUrlResponse = "error";
+        try {
+            String uploadURL = "https://freeimage.host/api/1/upload";
+            String key = "6d207e02198a847aa98d0a2a901485a5";
 
-        Map<Object, Object> formData = new HashMap<>();
-        formData.put("key", apiKey);
-        formData.put("source", imgInBase64);
+            URL url = new URL(uploadURL);
+            String postString = "key=" + URLEncoder.encode(key, "UTF-8") + "&source=" + URLEncoder.encode(imgInBase64, "UTF-8");
+            byte[] postDataBytes = postString.getBytes("UTF-8");
 
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .POST(buildFormDataFromMap(formData))
-                .uri(URI.create(uploadUrl))
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .build();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+            conn.setDoOutput(true);
+            conn.getOutputStream().write(postDataBytes);
 
-        HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            StringBuilder stringBuilder = new StringBuilder();
+            int res;
+            while ((res = in.read()) >= 0) {
+                stringBuilder.append((char) res);
+            }
+            uploadResponse = extractURLFromResponse(stringBuilder.toString());
 
-        if (response.statusCode() == 200) {
-            uploadUrlResponse = response.body();
-            uploadUrlResponse = uploadUrlResponse.substring(uploadUrlResponse.indexOf("\"image\":\"") + 9);
-            uploadUrlResponse = uploadUrlResponse.substring(0, uploadUrlResponse.indexOf('"'));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return uploadResponse;
+    }
 
-        return formatUrl(uploadUrlResponse);
+    String extractURLFromResponse(String response) {
+        String extractedURL = "";
+        extractedURL = response.substring(response.indexOf("image\":\"") + 8);
+        extractedURL = extractedURL.substring(0, extractedURL.indexOf("\""));
+        return formatUrl((extractedURL));
     }
 
     private static String formatUrl(String originalUrl) {
-        String fixedUrl = "";
+        StringBuilder fixedUrl = new StringBuilder();
         if (originalUrl.contains("\\")) {
             for (int i = 0; i < originalUrl.length(); i++) {
                 if (originalUrl.charAt(i) != '\\')
-                    fixedUrl += originalUrl.charAt(i);
+                    fixedUrl.append(originalUrl.charAt(i));
             }
         } else {
             return originalUrl;
         }
-        return fixedUrl;
-    }
-
-    private static HttpRequest.BodyPublisher buildFormDataFromMap(Map<Object, Object> data) {
-        var builder = new StringBuilder();
-        for (Map.Entry<Object, Object> entry : data.entrySet()) {
-            if (builder.length() > 0) {
-                builder.append("&");
-            }
-            builder.append(URLEncoder.encode(entry.getKey().toString(), StandardCharsets.UTF_8));
-            builder.append("=");
-            builder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
-        }
-        return HttpRequest.BodyPublishers.ofString(builder.toString());
+        return fixedUrl.toString();
     }
 }

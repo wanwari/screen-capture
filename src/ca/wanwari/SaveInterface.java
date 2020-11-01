@@ -85,7 +85,7 @@ public class SaveInterface {
                     message = "The image has been uploaded and the URL has been copied to your clipboard.";
                     title = "Uploaded";
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             JOptionPane.showMessageDialog(frame,
