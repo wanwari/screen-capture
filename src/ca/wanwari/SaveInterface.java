@@ -107,8 +107,9 @@ public class SaveInterface {
     }
 
     Point getCenterLocation() {
-        int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        int screen_height = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        Rectangle gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        int screen_width = (int)gd.getWidth();
+        int screen_height = (int)gd.getHeight();
         int x = (screen_width/2) - frameWidth/2;
         int y = (screen_height/2) - frameHeight/2;
         return new Point(x, y);
