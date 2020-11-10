@@ -47,14 +47,28 @@ public class CaptureInterface extends MouseAdapter {
         super.mouseReleased(mouseEvent);
 
         drawPanel.setVisible(false);
-        drawPanel.setEnabled(false);
         displayWindow.remove(drawPanel);
-
         displayWindow.setVisible(false);
-        displayWindow.setEnabled(false);
         displayWindow.dispose();
+
         captureRectangle = drawPanel.getRectangle();
         captureRectangle.setLocation(captureRectangle.x + minX, captureRectangle.y + minY);
+
+        /*
+        * PROBLEM: the drawPanel and displayWindow frames do not hide fast enough
+        * EXPLANATION: while the frames are set to be hidden the actual process of hiding them is
+        * not full completed before the next line of code is ran, thus resulting in the drawPanel
+        * overlay being shown in the screen capture
+        * SOLUTION: suspend the thread for 500ms to insure the frames have properly disposed
+        * prior to the screen capture being taken
+        * TODO: find a better solution
+        */
+
+        try {
+            Thread.sleep(500);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         if (captureRectangle != null)
             setupSaveInterface(captureRectangle);
