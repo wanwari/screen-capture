@@ -1,5 +1,6 @@
 package ca.wanwari;
 
+import javax.swing.*;
 import java.awt.*;
 import static java.awt.GraphicsDevice.WindowTranslucency.*;
 
@@ -23,8 +24,10 @@ public class Main {
         if (!SystemTray.isSupported()) {
             System.out.println("INFO: SystemTray is not supported");
             System.out.println("Skipping SystemTray and launching CaptureInterface directly");
-            CaptureInterface captureInterface = new CaptureInterface();
-            captureInterface.showDisplay();
+            java.awt.EventQueue.invokeLater(() -> {
+                CaptureInterface captureInterface = new CaptureInterface();
+                captureInterface.showDisplay();
+            });
         } else {
             //TODO: if SystemTray is supported create & launch an instance
         }
