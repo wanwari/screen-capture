@@ -83,7 +83,10 @@ public class DrawPanel extends JPanel {
     }
 
     Rectangle getRectangle() {
-        return new Rectangle(rectangleX, rectangleY, rectangleWidth, rectangleHeight);
+        if (rectangleX != -1 && rectangleY != -1 && rectangleWidth != -1 && rectangleHeight != -1)
+            return new Rectangle(rectangleX, rectangleY, rectangleWidth, rectangleHeight);
+        else
+            return null;
     }
 
 }
