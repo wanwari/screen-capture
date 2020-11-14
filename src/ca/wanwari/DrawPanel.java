@@ -31,8 +31,10 @@ public class DrawPanel extends JPanel {
         super.paintComponent(g);
 
         g2.setStroke(new BasicStroke(1.5f));
-        g2.setColor(new Color(255, 0, 0));
+        g2.setFont(new Font(g.getFont().getFontName(), Font.BOLD + Font.ITALIC, 12));
+        g2.setColor(new Color(0, 0, 0, 1f));
         g2.drawRect(rectangleX, rectangleY, rectangleWidth, rectangleHeight);
+        g2.drawString(("Size: " + rectangleWidth + "x" + rectangleHeight), rectangleX, rectangleY-5);
     }
 
     void updateRectanglePoints() {
