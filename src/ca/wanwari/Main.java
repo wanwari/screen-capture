@@ -7,7 +7,6 @@ package ca.wanwari;
  * and then save it to file, copy it to the clipboard, and/or upload it online
  */
 
-import javax.swing.*;
 import java.awt.*;
 import static java.awt.GraphicsDevice.WindowTranslucency.*;
 
@@ -22,23 +21,14 @@ public class Main {
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         boolean isUniformTranslucencySupported = gd.isWindowTranslucencySupported(TRANSLUCENT);
 
-        System.out.println("TRANSLUCENT " + isUniformTranslucencySupported);
-
         if (!isUniformTranslucencySupported) {
-            System.out.println("ERROR: Translucency is not supported");
+            System.out.println("ERROR: Translucency is not supported. Quitting.");
             System.exit(-1);
-        }
-
-        if (!SystemTray.isSupported()) {
-            System.out.println("INFO: SystemTray is not supported");
-            System.out.println("Skipping SystemTray and launching CaptureInterface directly");
+        } else {
             java.awt.EventQueue.invokeLater(() -> {
                 CaptureInterface captureInterface = new CaptureInterface();
                 captureInterface.showDisplay();
             });
-        } else {
-            //TODO: if SystemTray is supported create & launch an instance
         }
-
     }
 }
