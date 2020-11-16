@@ -19,7 +19,7 @@ public class SaveInterface {
 
     private final JFrame frame;
     private final int frameWidth = 550;
-    private final int frameHeight = 80;
+    private final int frameHeight = 85;
 
     SaveInterface(Rectangle captureRectangle) throws AWTException {
 
