@@ -1,7 +1,15 @@
 # screen-capture
-Screen capturing program built using Java
 
-## [Linux] Build Instructions
+A screen-capturing program built using Java.
+
+## Requirements
+
+* Java 8
+* Uses the [freeimage.host](https://freeimage.host) public [API](https//freeimage.host/page/api)
+
+## Build Instructions
+
+### [Linux]
 
 Clone the Repo and cd into it
 
