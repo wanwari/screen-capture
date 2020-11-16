@@ -5,10 +5,10 @@ import java.net.*;
 
 public class UploadManager {
 
-    private String uploadResponse = "error";
+    private String uploadResponse;
 
     UploadManager() {
-
+        uploadResponse = "error";
     }
 
     String upload(String imgInBase64) {
