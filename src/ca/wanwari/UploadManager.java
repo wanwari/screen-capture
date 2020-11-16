@@ -1,5 +1,13 @@
 package ca.wanwari;
 
+/*
+ * UploadManager.java
+ * Author: Wiesa Anwari
+ * Manages the uploading of an image to an online online image host
+ * Receives a base64 image in the form of a string and uploads it (freeimage.host)
+ * If the upload was a success extract the URL from the response and format it into a proper ULR
+ */
+
 import java.io.*;
 import java.net.*;
 

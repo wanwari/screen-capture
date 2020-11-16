@@ -1,5 +1,12 @@
 package ca.wanwari;
 
+/*
+ * CaptureManager.java
+ * Author: Wiesa Anwari
+ * Manages the capturing of the image based on the area provided
+ * Also manages saving the image to a file and converting the image to Base64 for use when uploading online
+ */
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;

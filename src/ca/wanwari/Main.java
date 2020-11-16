@@ -1,5 +1,12 @@
 package ca.wanwari;
 
+/*
+ * Main.java
+ * Author: Wiesa Anwari
+ * A screen capturing program that allows the user to screenshot a user defined area
+ * and then save it to file, copy it to the clipboard, and/or upload it online
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import static java.awt.GraphicsDevice.WindowTranslucency.*;
@@ -10,6 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //Check if the current environment supports translucency, if it is not quit the program
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         boolean isUniformTranslucencySupported = gd.isWindowTranslucencySupported(TRANSLUCENT);

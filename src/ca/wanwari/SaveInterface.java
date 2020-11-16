@@ -1,5 +1,12 @@
 package ca.wanwari;
 
+/*
+ * SaveInterface.java
+ * Author: Wiesa Anwari
+ * Capture the screenshot based on the rectangle provided
+ * Then display the interface to allow the user to save, copy, and/or upload the image
+ */
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -59,6 +66,14 @@ public class SaveInterface {
         JButton saveToClipboardBtn = new JButton("Copy to Clipboard");
         saveToClipboardBtn.setPreferredSize(new Dimension(200, 30));
         saveToClipboardBtn.addActionListener(actionEvent -> {
+            /*
+             * Take the image in the form of a bufferedimage and pass it to the TransferableImage
+             * If the data is transferable it will wrap the image in a Transferable that can be saved to the clipboard
+             *
+             * NOTE: If the user is using a X11 system the clipboard will not persist as X11 systems only copy a
+             * reference to the data that is copied. Once the program is closed that reference is no longer available
+             * and the user will have nothing to paste. This is default X11 behaviour
+             */
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(new TransferableImage(captureManager.getBufferedImage()), null);
             if (Main.operatingSystem.contains("Linux")) {

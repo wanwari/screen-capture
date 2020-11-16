@@ -1,5 +1,13 @@
 package ca.wanwari;
 
+/*
+ * CaptureInterface.java
+ * Author: Wiesa Anwari
+ * Displays the interface that is used to overlay the screen and display the area selected by the user
+ * This class will render a grayed out transparent overlay covering the screen
+ * When the user clicks and drags their mouse it will display a rectangle surrounding the area selected
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -9,8 +17,11 @@ public class CaptureInterface extends MouseAdapter {
 
     private final JFrame displayWindow;
     private final DrawPanel drawPanel;
+
+    //windows bar offset that may occur on some desktop environments
     private final int minX = (int)GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getMinX();
     private final int minY = (int)GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getMinY();
+
     private final int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private final int screen_height = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     private Rectangle captureRectangle;
@@ -42,6 +53,10 @@ public class CaptureInterface extends MouseAdapter {
         drawPanel.setClickedY((mouseEvent.getY()));
     }
 
+    /*
+     * When the mouse is released hide the overlay and save the Rectangle that the user selected
+     * Then setup and show the SaveInterface passing it the area that was selected
+     */
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
         super.mouseReleased(mouseEvent);
@@ -51,7 +66,11 @@ public class CaptureInterface extends MouseAdapter {
         displayWindow.setVisible(false);
         displayWindow.dispose();
 
+        //save the area the user selected
         captureRectangle = drawPanel.getRectangle();
+
+        //Some desktop environments will now allow the overlay to be rendered over the system bar
+        //this takes that offset into account and adjusts the points to accurately reflect teh area the user selected
         captureRectangle.setLocation(captureRectangle.x + minX, captureRectangle.y + minY);
 
         /*
@@ -63,7 +82,6 @@ public class CaptureInterface extends MouseAdapter {
         * prior to the screen capture being taken
         * TODO: find a better solution
         */
-
         try {
             Thread.sleep(500);
         } catch(Exception e) {

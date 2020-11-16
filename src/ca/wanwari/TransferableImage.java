@@ -1,12 +1,13 @@
-/*
-    TransferableImage.java
-    implements the interface for Transferable so the data (BufferedImage) can be used in a transfer operation
-    refer to the Transferable and DataFlavor APIs
-    https://docs.oracle.com/en/java/javase/15/docs/api/java.datatransfer/java/awt/datatransfer/Transferable.html
-    https://docs.oracle.com/en/java/javase/15/docs/api/java.datatransfer/java/awt/datatransfer/DataFlavor.html
- */
-
 package ca.wanwari;
+
+/*
+ * TransferableImage.java
+ * Author: https://stackoverflow.com/a/29516898
+ * Implements the interface for Transferable so the data (BufferedImage) can be used in a transfer operation
+ * Refer to the Transferable and DataFlavor APIs
+ * https://docs.oracle.com/en/java/javase/15/docs/api/java.datatransfer/java/awt/datatransfer/Transferable.html
+ * https://docs.oracle.com/en/java/javase/15/docs/api/java.datatransfer/java/awt/datatransfer/DataFlavor.html
+ */
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

@@ -1,5 +1,13 @@
 package ca.wanwari;
 
+/*
+ * DrawPanel.java
+ * Author: Wiesa Anwari
+ * Draws a black square on the parent JFrame based on the selected area.
+ * The selected area is defined as where the user clicked their mouse and where they have dragged it to
+ * Also displays the size of the current selected area
+ */
+
 import javax.swing.JPanel;
 import java.awt.*;
 
